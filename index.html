@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <head>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <meta charset="utf-8" />
+    <title>CPU Scheduling</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>CPU Scheduling Time Comparission</h1>
+
+        <div id="task">
+            <select name="task" id="menu">
+                <option value="setTimeout">setTimeout</option>
+                <option value="Promise">Promise</option>
+                <option value="RAF">RAF</option>
+                <option value="QueueMicroTask">QueueMicroTask</option>
+            </select>
+
+            <button id="btn">Run</button>
+        </div>        
+
+        <canvas id="cvs"></canvas>
+        <h3 id="status"></h3>
+        <h3 id="taskStatus"></h3>
+
+    </div>
+
+
+    <script type="text/javascript" src="script.js"></script>
+
+
+</body>
+
+</html>

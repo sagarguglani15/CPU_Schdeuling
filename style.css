@@ -1,0 +1,94 @@
+*{
+    padding: 10px;
+}
+
+body{
+    background-color: #A0522D;
+    background-image: url(http://www.transparenttextures.com/patterns/wood-pattern.png);
+}
+
+.container{
+    align-items: center;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+h1{
+    text-align: center;
+    color: #ffffff;
+    font-size: 40px;
+    text-shadow: 2px 2px #ff0000;
+    text-transform: uppercase;
+    opacity: 80%;
+    letter-spacing: 2px;
+    word-spacing: 5px;
+}
+
+h1:hover{
+    opacity: 100%;
+}
+
+#btn{
+    margin-left: 20px;
+    font-size: 20px;
+    border-radius: 50%;
+    color:  #E1AD01;
+    width: 100px;
+    background-color:#FF4500;
+    border: 6px solid gray;
+    font-weight: bolder;
+    outline: none;
+}
+
+#btn:hover{
+    cursor: pointer;
+    border: 8px solid gray;
+    margin: -2px;
+    margin-left: 22px;
+}
+
+#menu{
+    padding: 10px;
+    max-width: 40vw;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    color: white;
+    background-color: blue;
+    font-weight: bold;
+    font-size: 18px;
+    opacity: 80%;
+    outline: none;
+}
+
+#menu:hover{
+    opacity: 100%;
+}
+
+#cvs{
+    border: 5px dashed #2F4F4F;
+    height: 3vh;
+    width: 80%;
+    border-radius: 30px;
+    opacity: 80%;  
+}
+
+#cvs:hover{
+    opacity: 100%;
+}
+
+h3{
+    text-align: center;
+    color: darkgreen;
+    font-size: 30px;
+    font-weight: bold;
+    letter-spacing: 10px;
+    text-shadow: 2px 2px brown;
+    opacity: 80%;
+    white-space: pre;
+}
+
+h3:hover{
+    opacity: 100%;
+}
