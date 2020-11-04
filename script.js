@@ -2,9 +2,11 @@ const status = document.getElementById("status");
 const cvs = document.getElementById("cvs");
 const task = document.getElementById("menu");
 const taskStatus = document.getElementById("taskStatus");
-const btn = document.getElementById("btn").addEventListener('click', perform);
+const btn = document.getElementById("btn");
 
 const ctx = cvs.getContext("2d");
+
+btn.addEventListener('click', perform);
 
 CanvasRenderingContext2D.prototype.roundedRectangle = function (x, y, width, height, rounded) {
     const radiansInCircle = 2 * Math.PI
@@ -44,6 +46,8 @@ const statusBar = {
 
 let i;
 let start;
+let fibo;
+let method;
 
 function perform(e) {
 
@@ -51,20 +55,45 @@ function perform(e) {
     i = 0;
     start = Date.now();
     status.innerHTML = "Processing...";
-    
-    if (task.value === "setTimeout") {
-        complexTask_st();
-    } else if (task.value === "Promise") {
-        complexTask_p();
-    } else if (task.value === "RAF") {
-        complexTask_raf();
-    } else if (task.value === "QueueMicroTask") {
-        complexTask_qmt();
+    fibo = [];
+    btn.disabled = true;
+    method = task.value;
+
+    if( method === "Fibonacci"){
+        complexTask_fibo();
+    }else{
+        complexTask();
     }
 }
 
+function complexTask(){
+    do {
+        i++;
+    } while (i % 1e6 != 0)
 
-function changeStatus(s) {
+    if (i === 1e9) {
+        statusBar.progress += 1;
+        changeStatus(1, 1000);
+        taskStatus.innerHTML = `completed in ${(Date.now() - start) / 1000} seconds`;
+        btn.disabled = false;
+    } else {
+        statusBar.progress += 1;
+        changeStatus(0, 1000);
+        taskStatus.innerHTML = `currently at ${i}`;
+
+        if (method === "setTimeout") {
+            setTimeout(complexTask);
+        } else if (method === "Promise") {
+            Promise.resolve().then(complexTask);
+        } else if (method === "RAF") {
+            requestAnimationFrame(complexTask);
+        } else if (method === "QueueMicroTask") {
+            queueMicrotask(complexTask);
+        }
+    }
+}
+
+function changeStatus(s, limit) {
     ctx.clearRect(0, 0, cvs.width, cvs.height);
 
     if (s === 1) {
@@ -82,77 +111,34 @@ function changeStatus(s) {
     }
 
     ctx.beginPath();
-    ctx.roundedRectangle(0, 0, cvs.width * (statusBar.progress / 1000), cvs.height, 0);
+    ctx.roundedRectangle(0, 0, cvs.width * (statusBar.progress / limit), cvs.height, 0);
     ctx.fillStyle = "#00ff00";
     ctx.fill();
     ctx.closePath();
 }
 
-
-function complexTask_st() {
+function complexTask_fibo(){
     do {
+        if(i==0){
+            fibo.push(0);
+        }else if(i==1){
+            fibo.push(1);
+        }else{
+            fibo.push( fibo[i-2] + fibo[i-1] );
+        }
         i++;
-    } while (i % 1e6 != 0)
+    } while (i % 1000 != 0)
 
-    if (i === 1e9) {
+    if (i === 1000000) {
         statusBar.progress += 1;
-        changeStatus(1);
+        changeStatus(1, 1000);
         taskStatus.innerHTML = `completed in ${(Date.now() - start) / 1000} seconds`;
+        status.innerHTML = `Completed! with ${fibo.length} terms!`
+        btn.disabled = false;
     } else {
         statusBar.progress += 1;
-        changeStatus(0);
+        changeStatus(0, 1000);
         taskStatus.innerHTML = `currently at ${i}`;
-        setTimeout(complexTask_st);
-    }
-}
-
-function complexTask_p() {
-    do {
-        i++;
-    } while (i % 1e6 != 0)
-
-    if (i === 1e9) {
-        statusBar.progress += 1;
-        changeStatus(1);
-        taskStatus.innerHTML = `completed in ${(Date.now() - start) / 1000} seconds`;
-    } else {
-        statusBar.progress += 1;
-        changeStatus(0);
-        taskStatus.innerHTML = `currently at ${i}`;
-        Promise.resolve().then(complexTask_p);
-    }
-}
-
-function complexTask_raf() {
-    do {
-        i++;
-    } while (i % 1e6 != 0)
-
-    if (i === 1e9) {
-        statusBar.progress += 1;
-        changeStatus(1);
-        taskStatus.innerHTML = `completed in ${(Date.now() - start) / 1000} seconds`;
-    } else {
-        statusBar.progress += 1;
-        changeStatus(0);
-        taskStatus.innerHTML = `currently at ${i}`;
-        requestAnimationFrame(complexTask_raf);
-    }
-}
-
-function complexTask_qmt() {
-    do {
-        i++;
-    } while (i % 1e6 != 0)
-
-    if (i === 1e9) {
-        statusBar.progress += 1;
-        changeStatus(1);
-        taskStatus.innerHTML = `completed in ${(Date.now() - start) / 1000} seconds`;
-    } else {
-        statusBar.progress += 1;
-        changeStatus(0);
-        taskStatus.innerHTML = `currently at ${i}`;
-        queueMicrotask(complexTask_qmt);
+        setTimeout(complexTask_fibo);
     }
 }
